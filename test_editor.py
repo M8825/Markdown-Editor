@@ -44,3 +44,35 @@ class TestEditor(unittest.TestCase):
     def test_link(self, mock_input):
         mrkd_editor = MarkdownEditor()
         self.assertEqual(mrkd_editor.link(), '[Google link](www.google.com)')
+
+    lists = ['3', 'first row', 'second row', 'third row',
+             '3', 'first row', 'second row', 'third row', ]
+
+    @patch('builtins.input', side_effect=lists)
+    def test_lists(self, mock_input):
+        mrkd_editor = MarkdownEditor()
+        self.assertEqual(mrkd_editor.lists('ordered-list'),
+                         '1. first row\n2. second row\n3. third row\n')
+        self.assertEqual(mrkd_editor.lists('unordered-list'),
+                         '* first row\n* second row\n* third row\n')
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
