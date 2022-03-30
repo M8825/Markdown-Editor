@@ -48,11 +48,13 @@ class MarkdownEditor:
             if n_rows < 1:
                 print('The number of rows should be greater than zero')
                 continue
+            rows = list(map(lambda i: input(f'Row number #{i + 1}: ') + '\n', range(n_rows)))
+            types = list(map(lambda i: f'{i + 1}. ' if type == 'ordered-list' else f'* ', range(n_rows)))
 
-            rows = [input(f"Row number #{i + 1}: ") + '\n' for i in range(n_rows)]
-            types = [f'{i + 1}. '
-                     if type == 'ordered-list' else f'* '
-                     for i in range(n_rows)]
+            # rows = [input(f"Row number #{i + 1}: ") + '\n' for i in range(n_rows)]
+            # types = [f'{i + 1}. '
+            #          if type == 'ordered-list' else f'* '
+            #          for i in range(n_rows)]
 
             return ''.join(list(map(lambda x, y: x + y, types, rows)))
 
@@ -69,6 +71,9 @@ class MarkdownEditor:
                 continue
 
             if usr_inp == '!done':
+                output = open('output.md', 'w', encoding='utf-8')
+                output.write(text)
+                output.close()
                 break
 
             if usr_inp == '!help':
