@@ -1,8 +1,6 @@
-# write your code here
-# 'unordered-list',  'ordered-list',
 class MarkdownEditor:
     FORMATTING_LST = ['plain', 'bold', 'italic', 'header',
-                      'link', 'inline-code', 'new-line']
+                      'link', 'inline-code', 'new-line', 'unordered-list', 'ordered-list']
 
     formatter = "Available formatters: plain bold italic header link inline-code new-line"
     special = "Special commands: !help !done"
@@ -44,6 +42,20 @@ class MarkdownEditor:
         url = input('URL: ')
         return f'[{label}]({url})'
 
+    def lists(self, type):
+        while True:
+            n_rows = int(input('Number of rows: '))
+            if n_rows < 1:
+                print('The number of rows should be greater than zero')
+                continue
+
+            rows = [input(f"Row number #{i + 1}: ") + '\n' for i in range(n_rows)]
+            types = [f'{i + 1}. '
+                     if type == 'ordered-list' else f'* '
+                     for i in range(n_rows)]
+
+            return ''.join(list(map(lambda x, y: x + y, types, rows)))
+
     def main(self):
         text = ''
 
@@ -54,6 +66,7 @@ class MarkdownEditor:
 
             if usr_inp not in self.FORMATTING_LST and usr_inp not in ['!help', '!done']:
                 print('Unknown formatting type or command')
+                continue
 
             if usr_inp == '!done':
                 break
@@ -75,6 +88,8 @@ class MarkdownEditor:
                 text += self.link()
             elif usr_inp == 'italic':
                 text += self.italic()
+            elif usr_inp in ['ordered-list', 'unordered-list']:
+                text += self.lists(usr_inp)
 
 
 if __name__ == '__main__':
